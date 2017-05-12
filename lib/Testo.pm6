@@ -1,6 +1,6 @@
 unit module Testo;
 use Testo::Tester;
 
-my $Tester = Testo::Tester.new;
+our $Tester = Testo::Tester.new;
 
-sub is ($got, $exp, $desc?) { $Tester.is: $got, $exp, $desc }
+sub is ($got, $exp, Str $desc?) is export { $Tester.is: $got, $exp, $desc }

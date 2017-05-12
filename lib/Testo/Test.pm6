@@ -1,20 +1,27 @@
-unit role Testo::Test;
+unit package Testo::Test;
 
 use RakudoPrereq v2016.10.177.g.9409.d.68, # TWEAK added
     'Testo::Test module requires Rakudo v2016.11 or newer';
 
-has Mu  $.got is required;
-has Mu  $.exp is required;
-has Str $.desc;
+use Testo::Test::Result;
 
-submethod TWEAK { $!desc //= '' }
-method test { … }
+role Testo::Test {
+    has Mu  $.got    is required;
+    has Mu  $.exp    is required;
+    has Str $.desc;
+    has Testo::Test::Result $!result;
 
-class Testo::Test::Is does Testo::Test {
-    submethod TWEAK { $!desc //= "&desc-perl($!got) is &desc-perl($!exp)" }
-    method test {
-        $!got eqv $!exp
+    submethod TWEAK { $!desc //= '' }
+    method !test { … }
+    method result {
+        $!result //= Testo::Test::Result.new:
+            so => self!test.so, :$!got, :$!exp, :$!desc;
     }
+}
+
+class Is does Testo::Test {
+    submethod TWEAK { $!desc //= "&desc-perl($!got) is &desc-perl($!exp)" }
+    method !test { $!got ~~ $!exp }
 }
 
 sub desc-perl (Mu $v) {
