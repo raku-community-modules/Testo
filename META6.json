@@ -2,7 +2,7 @@
     "perl"         : "6.c",
     "name"         : "Testo",
     "version"      : "1.001001",
-    "description"  : "Test.pm6 Done Right",
+    "description"  : "Perl 6 Testing Done Right",
     "depends"      : [ ],
     "test-depends" : [ ],
     "provides"     : {

@@ -2,28 +2,26 @@
 
 # NAME
 
-Testo - Test.pm6 Done Right
+Testo - Perl 6 Testing Done Right
 
 # SYNOPSIS
 
 ```perl6
-    use WWW;
+    use Testo;
 
-    # Just GET content (will return Failure on failure):
-    say get 'https://httpbin.org/get?foo=42&bar=x';
+    # `is` uses smart match semantics:
+    is 'foobar', *.contains('foo');    # test passes
+    is (1, 2, (3, 4)), [1, 2, [3, 4]]; # test passes
+    is (1, 2, (3, 4)), '1 2 3 4';      # test fails; unlike Test.pm6's `is`
+    is 'foobar', /foo/;   # no more Test.pm6's `like`;    just use a regex
+    is 'foobar', Str;     # no more Test.pm6's `isa-ok`;  just use a type object
+    is 'foobar', Stringy; # no more Test.pm6's `does-ok`; just use a type object
 
-    # GET and decode received data as JSON:
-    say jget('https://httpbin.org/get?foo=42&bar=x')<args><foo>;
+    # uses `eqv` semantics and works right with Seqs
+    is-eqv (1, 2).Seq, (1, 2); # test fails; unlike Test.pm6's `is-deeply`
 
-    # POST content (query args are OK; pass form as named args)
-    say post 'https://httpbin.org/post?foo=42&bar=x', :some<form>, :42args;
-
-    # And if you need headers, pass them inside a positional Hash:
-    say post 'https://httpbin.org/post?foo=42&bar=x', %(:Some<Custom-Header>),
-        :some<form>, :42args;
-
-    # Same POST as above + decode response as JSON
-    say jpost('https://httpbin.org/post', :some<form>)<args><some>;
+    fails-like  { +"a" }, X::Str::Numeric;  # check something fails
+    throws-like { die  }, X::AdHoc;         # check something throws
 ```
 
 # DESCRIPTION
