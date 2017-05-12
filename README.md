@@ -25,14 +25,17 @@ Testo - Perl 6 Testing Done Right
     throws-like { die  }, X::AdHoc;         # check something throws
 ```
 
+# BETA-WARE
+
+Note this module is still in fleshing-out stage. JSON output type, more
+test functions, and docs for the classes under the hood are yet to be made, but
+will be made soon!
+
 # DESCRIPTION
 
-The `Test.pm6` module that ships with Rakudo does the job, but a large
-portion of its design is influenced by Perl 5 test modules, making it less than
-ideal for testing Perl 6 code.
-
 Testo is the New and Improved version of `Test.pm6` that you can use
-*instead* of `Test.pm6` to test all of your code!
+*instead* of `Test.pm6` to test all of your code and generate output in TAP,
+JSON, or any other custom format!
 
 # EXPORTED ROUTINES
 
@@ -76,8 +79,9 @@ result is `True`. An optional description of the test can be specified
 ```
 
 Note that Testo does not provide several of [Test.pm6's
-tests](https://docs.perl6.org/language/testing), such as `like`, `unlike`,
-`isa-ok` or `does-ok`, as those replaced by `is` wi
+tests](https://docs.perl6.org/language/testing), such as `isnt`, `like`,
+`unlike`, `isa-ok` or `does-ok`, as those are replaced by `is` with Regex/type
+objects/`none` Junctions as arguments.
 
 ---
 
