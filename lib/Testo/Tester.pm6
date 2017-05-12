@@ -20,6 +20,6 @@ method is (Mu $got, Mu $exp, $desc) {
 }
 
 method is-eqv (Mu $got, Mu $exp, $desc) {
-    @!tests.push: my $test := Testo::Test::Is.new: :$got, :$exp, :$desc;
+    @!tests.push: my $test := Testo::Test::IsEqv.new: :$got, :$exp, :$desc;
     $!out.put: $test.result
 }

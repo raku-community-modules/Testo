@@ -5,6 +5,13 @@ use RakudoPrereq v2016.10.177.g.9409.d.68, # TWEAK added
 
 use Testo::Test::Result;
 
+sub desc-perl (Mu $v) {
+    my $desc = try $v.perl;
+    $! and $desc = $v.^name ~ (' (lazy)' if try $v.is-lazy);
+    $desc = $desc.substr(0, 30) ~ '…' if $desc.chars > 30;
+    $desc
+}
+
 role Testo::Test {
     has Mu  $.got    is required;
     has Mu  $.exp    is required;
@@ -24,8 +31,11 @@ class Is does Testo::Test {
     method !test { $!got ~~ $!exp }
 }
 
-sub desc-perl (Mu $v) {
-    my $desc = $v.perl;
-    $desc = $desc.substr(0, 30) ~ '…' if $desc.chars > 30;
-    $desc
+class IsEqv does Testo::Test {
+    submethod TWEAK {
+        $!desc //= "&desc-perl($!got) is equivalent to &desc-perl($!exp)"
+    }
+    method !test {
+        (try so $!got eqv $!exp) // Failure
+    }
 }
