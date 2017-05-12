@@ -20,6 +20,11 @@ Testo - Perl 6 Testing Done Right
 
     # uses `eqv` semantics and works right with Seqs
     is-eqv (1, 2).Seq, (1, 2); # test fails; unlike Test.pm6's `is-deeply`
+
+    # execute a program with some args and STDIN input and smartmatch its
+    # STDERR, STDOUT, and exit status:
+    is-run $*EXECUTABLE, :in<hi!>, :args['-e', 'say $*IN.uc'],
+        :out(/'HI!'/), :err(''), :0status, 'can say hi';
 ```
 
 # FEATURES
@@ -103,6 +108,10 @@ An optional description of the test can be specified.
     is-eqv 1.0, 1; # fails; types do not match
     is-eqv 1, 1;   # succeeds; types and values match
 ```
+
+## `is-run`
+
+NYI
 
 ---
 

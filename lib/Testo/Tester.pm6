@@ -14,12 +14,21 @@ method new (Str:D :$format = 'TAP') {
 
 method plan ($n) { $!out.plan: $n }
 
-method is (Mu $got, Mu $exp, $desc) {
+method is (Mu $got, Mu $exp, $desc?) {
     @!tests.push: my $test := Testo::Test::Is.new: :$got, :$exp, :$desc;
     $!out.put: $test.result
 }
 
-method is-eqv (Mu $got, Mu $exp, $desc) {
+method is-eqv (Mu $got, Mu $exp, $desc?) {
     @!tests.push: my $test := Testo::Test::IsEqv.new: :$got, :$exp, :$desc;
+    $!out.put: $test.result
+}
+
+method is-run (
+  Str() $program, $desc?,
+  Stringy :$in, :@args, :$out, :$err, :$status
+) {
+    @!tests.push: my $test := Testo::Test::IsRun.new:
+        :$program, :$desc, :$in, :@args, :$out, :$err, :$status;
     $!out.put: $test.result
 }

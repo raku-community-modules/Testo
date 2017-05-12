@@ -2,13 +2,7 @@ unit module Testo;
 use Testo::Tester;
 
 our $Tester = Testo::Tester.new;
-
-sub plan ($n) is export { $Tester.plan: $n }
-
-sub is (Mu $got, Mu $exp, Str $desc?) is export {
-    $Tester.is: $got, $exp, $desc
-}
-
-sub is-eqv (Mu $got, Mu $exp, Str $desc?) is export {
-    $Tester.is-eqv: $got, $exp, $desc
-}
+sub plan   (|c) is export { $Tester.plan:   |c }
+sub is     (|c) is export { $Tester.is:     |c }
+sub is-eqv (|c) is export { $Tester.is-eqv: |c }
+sub is-run (|c) is export { $Tester.is-run: |c }
