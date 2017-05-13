@@ -111,7 +111,7 @@ An optional description of the test can be specified.
 
 ## `is-run`
 
-NYI
+NYI.
 
 ---
 
