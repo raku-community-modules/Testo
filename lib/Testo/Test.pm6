@@ -55,11 +55,12 @@ class IsRun does Testo::Test {
     method !test {
         with run :in, :out, :err, $!program, |@!args {
             $!in ~~ Blob ?? .in.write: $!in !! .in.print: $!in if $!in;
-            $!in.close;
+            $ = .in.close;
             my $out    = .out.slurp-rest: :close;
             my $err    = .err.slurp-rest: :close;
-            my $status = .exit-code;
+            my $status = .exitcode;
         }
-        False
+        note "***** is-run is NYI yet! *****";
+        True
     }
 }
