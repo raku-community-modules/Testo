@@ -12,6 +12,9 @@ method new (Str:D :$format = 'TAP') {
     self.bless!SET-SELF: out => ::($out).new
 }
 
+method group (Pair $group) {
+}
+
 method plan ($n) { $!out.plan: $n }
 
 method is (Mu $got, Mu $exp, $desc?) {
