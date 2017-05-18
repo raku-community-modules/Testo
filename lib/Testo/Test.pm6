@@ -23,6 +23,17 @@ role Testo::Test {
     }
 }
 
+class Group does Testo::Test {
+    has &.group  is required;
+    has $.tester is required;
+    has UInt $.plan where .DEFINITE.not || .so;
+    method !test {
+        $!tester.plan: $!plan if $!plan.DEFINITE;
+        &!group();
+        $!tester.tests».result».so.all.so
+    }
+}
+
 class Is does Testo::Test {
     has Mu  $.got    is required;
     has Mu  $.exp    is required;
@@ -48,6 +59,7 @@ class IsRun does Testo::Test {
     has $.out;
     has $.err;
     has $.status;
+    has $.tester;
 
     submethod TWEAK {
         $!desc //= "running $!program"
@@ -58,20 +70,20 @@ class IsRun does Testo::Test {
             $ = .in.close;
             my $out    = .out.slurp-rest: :close;
             my $err    = .err.slurp-rest: :close;
-            my $status = .exitcode;
-        }
-        note "***** is-run is NYI yet! *****";
-        True
-    }
-}
+            my $status = .status;
 
-class Group does Testo::Test {
-    has &.group  is required;
-    has $.tester is required;
-    has UInt $.plan where .DEFINITE.not || .so;
-    method !test {
-        $!tester.plan: $!plan if $!plan.DEFINITE;
-        &!group();
-        $!tester.tests».result».so.all.so
+            my $wanted-status = $!status // 0;
+            my $plan = [+] 1, $!out.DEFINITE, $!err.DEFINITE;
+            $plan and do {
+                my $*Tester = $!tester.new:
+                    group-level => 1+$!tester.group-level;
+                $!tester.group: $*Tester, $!desc => $plan => {
+                    $*Tester.is: $out, $!out if $!out.DEFINITE;
+                    $*Tester.is: $err, $!err if $!out.DEFINITE;
+                    $*Tester.is: $status, $wanted-status;
+                }
+            }
+        }
     }
+    method result { self!test; Nil }
 }

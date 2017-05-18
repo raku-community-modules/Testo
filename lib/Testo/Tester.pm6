@@ -51,6 +51,6 @@ method is-run (
   Stringy :$in, :@args, :$out, :$err, :$status
 ) {
     @!tests.push: my $test := Testo::Test::IsRun.new:
-        :$program, :$desc, :$in, :@args, :$out, :$err, :$status;
+        :$program, :$desc, :$in, :@args, :$out, :$err, :$status, :tester(self);
     $!out.put: $test.result
 }

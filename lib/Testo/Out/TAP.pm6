@@ -10,7 +10,8 @@ method !indents { "\c[SPACE]" x 4*$!group-level }
 
 method plan (Int $n) { $!out.say: self!indents ~ "1..$n" }
 
-method put (Testo::Test::Result:D $test) {
+multi method put ($) {}
+multi method put (Testo::Test::Result:D $test) {
     $!count++;
     $!out.say: $test.so ?? self!indents ~ "ok $!count - $test.desc()"
                         !! self!indents ~ "not ok $!count - $test.desc()"
