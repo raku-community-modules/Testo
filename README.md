@@ -147,13 +147,32 @@ example above).
 ## `group`
 
 ```perl6
+    plan 1;
+
     # run a bunch of tests as a group; like Test.pm6's `subtest`
-    group 'a bunch of test' => 3 => {
+    group 'a bunch of tests' => 4 => {
         is 1, 1;
         is 4, 4;
         is 'foobar', /foo/;
+
+        group 'nested bunch of tests; with manual `plan`' => {
+            plan 2;
+            is 1, 1;
+            is 4, 4;
+        }
     }
 ```
+
+Similar to `Test.pm6`'s `subtest`. Groups a number of tests into a... group
+with its own plan. The entire group counts as 1 test towards the planned/ran
+number of tests.
+
+Takes a `Pair` as the argument that is either `Str:D $desc => &group-code`
+or `Str:D $desc => UInt:D $plan where .so => &group-code` (see code example
+above), the latter form lets you specify the plan for the group, while the
+former would require you to manually use `&plan` inside of the `&group-code`.
+
+Groups can be nested for any (reasonable) number of levels.
 
 ---
 
