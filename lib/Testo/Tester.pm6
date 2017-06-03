@@ -55,13 +55,23 @@ method is-run (
   Stringy :$in, :@args, :$out, :$err, :$status
   --> Testo::Test::Result:D
 ) {
-    my $test := Testo::Test::IsRun.new:
-        :$program, :$desc, :$in, :@args, :$out, :$err, :$status, :tester(self);
-    $test.result;
+    (Testo::Test::IsRun.new:
+        :$program, :$desc, :$in, :@args, :$out, :$err, :$status, :tester(self)
+    ).result
+}
+
+multi method throws (
+    $code where Str:D|Callable:D,
+    Exception $exception = Exception, $desc?, *%matchers
+) {
+    (Testo::Test::Throws.new: :$code, :$exception, :$desc, :%matchers).result
+}
+
+multi method throws ($code where Str:D|Callable:D, Cool $desc? , *%matchers) {
+    Testo::Test::Throws.new(:$code, :$desc, :%matchers).result
 }
 
 method done-testing {
-    # dd [ +@!tests, $!plan, @!tests == $!plan ];
     exit 255 unless @!tests and @!tests == $!plan;
     my $failed = +@!tests.grep: *.result.so.not
         and exit $failed min 254;

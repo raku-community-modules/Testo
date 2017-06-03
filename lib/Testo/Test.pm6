@@ -15,7 +15,7 @@ sub desc-perl (Mu $v) {
 }
 
 role Testo::Test {
-    has $.desc;
+    has Str(Cool) $.desc;
     has Testo::Test::Result $!result;
 
     submethod TWEAK { $!desc //= '' }
@@ -65,6 +65,65 @@ class IsEqv does Testo::Test {
     method !fail {
           "            Got: $.got.perl()\n"
         ~ "Does not eqv to: $.exp.perl()"
+    }
+}
+
+class Throws does Testo::Test {
+    has $.code where Str:D|Callable:D is required;
+    has Exception $.exception = Exception;
+    has %.matchers;
+
+    submethod TWEAK {
+        $!desc //= "&desc-perl($!code) throws &desc-perl($!exception)"
+    }
+    method !test {
+    subtest {
+        plan 2 + %matcher.keys;
+        my $msg;
+        if $code ~~ Callable {
+            $msg = 'code dies';
+            $code()
+        } else {
+            $msg = "'$code' died";
+            $code.EVAL;
+        }
+        flunk $msg;
+        skip 'Code did not die, can not check exception', 1 + %matcher.elems;
+        CATCH {
+            default {
+                pass $msg;
+                my $type_ok = $_ ~~ $ex_type;
+                ok $type_ok , "right exception type ({$ex_type.^name})";
+                if $type_ok {
+                    for %matcher.kv -> $k, $v {
+                        my $got is default(Nil) = $_."$k"();
+                        my $ok = $got ~~ $v,;
+                        ok $ok, ".$k matches $v.gist()";
+                        unless $ok {
+                            _diag "Expected: " ~ ($v ~~ Str ?? $v !! $v.perl)
+                              ~ "\nGot:      $got";
+                        }
+                    }
+                } else {
+                    _diag "Expected: {$ex_type.^name}\n"
+                        ~ "Got:      {$_.^name}\n"
+                        ~ "Exception message: $_.message()";
+                    skip 'wrong exception type', %matcher.elems;
+                }
+            }
+        }
+    }, $reason // "did we throws-like {$ex_type.^name}?";
+
+
+
+
+        my $*Tester = $!tester.new: group-level => 1+$!tester.group-level;
+        $!result = $!tester.group: $*Tester, $!desc => 2 + %!matcher => {
+            $code ~~ Callable ?? $code() !! $code.EVAL
+            # $*Tester.is: $out,    $wanted-out,    'STDOUT';
+            # $*Tester.is: $err,    $wanted-err,    'STDERR';
+            # $*Tester.is: $status, $wanted-status, 'Status';
+        }
     }
 }
 
