@@ -52,11 +52,11 @@ method is-eqv (Mu $got, Mu $exp, $desc?) {
 
 method is-run (
   Str() $program, $desc?,
-  Stringy :$in, :@args, :$out, :$err, :$status
+  Stringy :$in, :@args, :$out, :$err, :$exit-code
   --> Testo::Test::Result:D
 ) {
     my $test := Testo::Test::IsRun.new:
-        :$program, :$desc, :$in, :@args, :$out, :$err, :$status, :tester(self);
+        :$program, :$desc, :$in, :@args, :$out, :$err, :$exit-code, :tester(self);
     $test.result;
 }
 

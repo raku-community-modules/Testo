@@ -22,7 +22,7 @@ Testo - Perl 6 Testing Done Right
     is-eqv (1, 2).Seq, (1, 2); # test fails; unlike Test.pm6's `is-deeply`
 
     # execute a program with some args and STDIN input and smartmatch its
-    # STDERR, STDOUT, and exit status:
+    # STDERR, STDOUT, and exit-code:
     is-run $*EXECUTABLE, :in<hi!>, :args['-e', 'say $*IN.uc'],
         :out(/'HI!'/), 'can say hi';
 
@@ -126,7 +126,7 @@ An optional description of the test can be specified.
         :err<42>, 'can err 42';
 
     is-run $*EXECUTABLE, :args['-e', 'die 42'],
-        :err(*), :42status, 'can exit with exit code 42';
+        :err(*), :42exit-code, 'can exit with exit code 42';
 ```
 
 **NOTE:** due to [a Rakudo bug
@@ -138,8 +138,8 @@ supplying extra args given as `:args[...]` or feeding STDIN with a `Str` or
 `Blob` data given via C<:in>.
 
 Runs three `is` tests on STDOUT, STDERR, and exit code expected values for
-which are provided via `:out`, `:err` and `:status` arguments respectively.
-If omitted, `:out` and `:err` default to empty string (`''`) and `:status`
+which are provided via `:out`, `:err` and `:exit-code` arguments respectively.
+If omitted, `:out` and `:err` default to empty string (`''`) and `:exit-code`
 defaults to `0`. Use the [Whatever star](https://docs.perl6.org/type/Whatever)
 (`*`) as the value for any of the three arguments (see `:err` in last
 example above).
