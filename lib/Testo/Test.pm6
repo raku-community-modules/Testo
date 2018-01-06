@@ -82,7 +82,8 @@ class IsRun does Testo::Test {
             $ = .in.close;
             my $out    = .out.slurp-rest: :close;
             my $err    = .err.slurp-rest: :close;
-            my $exit-code = .exitcode;
+            my $exit-code = .status; # until bug 130781 fixed
+            # should be.exitcode;
 
             my $wanted-exit-code = $!exit-code // 0;
             my $wanted-out    = $!out    // '';
