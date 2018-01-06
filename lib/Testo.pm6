@@ -15,7 +15,7 @@ sub group  (|c) is export {
 sub plan   (|c) is export { ($*Tester//$Tester).plan:   |c }
 sub is     (|c) is export { ($*Tester//$Tester).is:     |c }
 sub is-eqv (|c) is export { ($*Tester//$Tester).is-eqv: |c }
-sub is-run (|c) is export { ($*Tester//$Tester).is-run: |c }
+sub runs (|c) is export { ($*Tester//$Tester).runs: |c }
 
 sub done-testing (:$no-exit) is export {
     $seen-done = True;

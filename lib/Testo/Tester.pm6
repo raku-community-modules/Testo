@@ -50,13 +50,13 @@ method is-eqv (Mu $got, Mu $exp, $desc?) {
     $!out.put: $test.result
 }
 
-method is-run (
+method runs (
   Str() $program, $desc?,
-  Stringy :$in, :@args, :$out, :$err, :$status
+  Stringy :$in, :@args, :$out, :$err, :$exit-code
   --> Testo::Test::Result:D
 ) {
-    my $test := Testo::Test::IsRun.new:
-        :$program, :$desc, :$in, :@args, :$out, :$err, :$status, :tester(self);
+    my $test := Testo::Test::Runs.new:
+        :$program, :$desc, :$in, :@args, :$out, :$err, :$exit-code, :tester(self);
     $test.result;
 }
 
