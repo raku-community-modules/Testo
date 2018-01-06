@@ -23,7 +23,7 @@ Testo - Perl 6 Testing Done Right
 
     # execute a program with some args and STDIN input and smartmatch its
     # STDERR, STDOUT, and exit-code:
-    is-run $*EXECUTABLE, :in<hi!>, :args['-e', 'say $*IN.uc'],
+    runs $*EXECUTABLE, :in<hi!>, :args['-e', 'say $*IN.uc'],
         :out(/'HI!'/), 'can say hi';
 
     # run a bunch of tests as a group; like Test.pm6's `subtest`
@@ -116,16 +116,16 @@ An optional description of the test can be specified.
     is-eqv 1, 1;   # succeeds; types and values match
 ```
 
-## `is-run`
+## `runs`
 
 ```perl6
-    is-run $*EXECUTABLE, :in<hi!>, :args['-e', 'say $*IN.uc'],
+    runs $*EXECUTABLE, :in<hi!>, :args['-e', 'say $*IN.uc'],
         :out(/'HI!'/), 'can say hi';
 
-    is-run $*EXECUTABLE, :args['-e', '$*ERR.print: 42'],
+    runs $*EXECUTABLE, :args['-e', '$*ERR.print: 42'],
         :err<42>, 'can err 42';
 
-    is-run $*EXECUTABLE, :args['-e', 'die 42'],
+    runs $*EXECUTABLE, :args['-e', 'die 42'],
         :err(*), :42exit-code, 'can exit with exit code 42';
 ```
 

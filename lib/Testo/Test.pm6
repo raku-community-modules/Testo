@@ -64,7 +64,7 @@ class IsEqv does Testo::Test {
     }
 }
 
-class IsRun does Testo::Test {
+class Runs does Testo::Test {
     has Str:D $.program is required;
     has Stringy $.in;
     has @.args where .all ~~ Cool;
