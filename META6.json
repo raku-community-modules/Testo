@@ -1,7 +1,7 @@
 {
     "perl"         : "6.c",
     "name"         : "Testo",
-    "version"      : "1.003004",
+    "version"      : "1.003005",
     "description"  : "Perl 6 Testing Done Right",
     "depends"      : [],
     "test-depends" : [ ],
@@ -15,7 +15,8 @@
         "Testo::Test::Group": "lib/Testo/Test.pm6",
         "Testo::Test::Is": "lib/Testo/Test.pm6",
         "Testo::Test::IsEqv": "lib/Testo/Test.pm6",
-        "Testo::Test::IsRun": "lib/Testo/Test.pm6"
+        "Testo::Test::IsRun": "lib/Testo/Test.pm6",
+        "Testo::Test::Skip": "lib/Testo/Test.pm6"
     },
     "authors"       : ["Zoffix Znet"],
     "tags"          : ["Testing"],
