@@ -60,6 +60,13 @@ method is-run (
     $test.result;
 }
 
+method skip ($desc?, Int :$count = 1) {
+    for 1..$count {
+        @!tests.push: my $test := Testo::Test::Skip.new: :$desc;
+        $!out.put: $test.result;
+    }
+}
+
 method done-testing {
     # dd [ +@!tests, $!plan, @!tests == $!plan ];
     exit 255 unless @!tests and @!tests == $!plan;
