@@ -64,6 +64,14 @@ class IsEqv does Testo::Test {
     }
 }
 
+class Skip does Testo::Test {
+    submethod TWEAK {
+        $!desc = "SKIP " ~ ($!desc // "");
+    }
+    method !test { True }
+    # to big to !fail
+}
+
 class IsRun does Testo::Test {
     has Str:D $.program is required;
     has Stringy $.in;
