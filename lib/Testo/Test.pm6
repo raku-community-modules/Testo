@@ -64,6 +64,34 @@ class IsEqv does Testo::Test {
     }
 }
 
+class IsTrue does Testo::Test {
+    has Mu $.got is required;
+    submethod TWEAK {
+        $!desc //= "&desc-perl($!got) is True";
+    }
+    method !test {
+        (try so $!got) // Failure;
+    }
+    method !fail {
+          "            Got: $.got.perl()\n"
+        ~ "Does not evaluate to True"
+    }
+}
+
+class IsFalse does Testo::Test {
+    has Mu $.got is required;
+    submethod TWEAK {
+        $!desc //= "&desc-perl($!got) is False";
+    }
+    method !test {
+        (try not so $!got) // Failure;
+    }
+    method !fail {
+          "            Got: $.got.perl()\n"
+        ~ "Does not evaluate to False"
+    }
+}
+
 class Skip does Testo::Test {
     submethod TWEAK {
         $!desc = "SKIP " ~ ($!desc // "");

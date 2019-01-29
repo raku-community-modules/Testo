@@ -60,6 +60,16 @@ method is-run (
     $test.result;
 }
 
+method ok (Mu $got, $desc?) {
+    @!tests.push: my $test := Testo::Test::IsTrue.new: :$got, :$desc;
+    $!out.put: $test.result
+}
+
+method nok (Mu $got, $desc?) {
+    @!tests.push: my $test := Testo::Test::IsFalse.new: :$got, :$desc;
+    $!out.put: $test.result
+}
+
 method skip ($desc?, Int :$count = 1) {
     for 1..$count {
         @!tests.push: my $test := Testo::Test::Skip.new: :$desc;
