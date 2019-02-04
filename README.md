@@ -18,8 +18,8 @@ Testo - Perl 6 Testing Done Right
     is 'foobar', Str;     # no more Test.pm6's `isa-ok`;  just use a type object
     is 'foobar', Stringy; # no more Test.pm6's `does-ok`; just use a type object
 
-    is-true $number < 0;
-    is-false $io-path.e, 'path does not exist';
+    ok $number < 0;
+    nok $io-path.e, 'path does not exist';
 
     # uses `eqv` semantics and works right with Seqs
     is-eqv (1, 2).Seq, (1, 2); # test fails; unlike Test.pm6's `is-deeply`
@@ -119,16 +119,12 @@ An optional description of the test can be specified.
     is-eqv 1, 1;   # succeeds; types and values match
 ```
 
-## `is-true` and `is-false`
-## `is-so` and `is-not`
+## `ok` and `nok`
 
 ```perl6
-    is-true $number < 0;
-    is-so $number < 0;
-    is-false $io-path.e, 'path does not exist';
-    is-not $io-path.e, 'path does not exist';
+    ok $number < 0;
+    nok $io-path.e, 'path does not exist';
 ```
-
 
 ## `is-run`
 
