@@ -1,7 +1,7 @@
 use lib <lib>;
 use Testo;
 
-plan 8;
+plan 6;
 
 ok True;
 nok False;
