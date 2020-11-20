@@ -2,11 +2,11 @@
 
 # NAME
 
-Testo - Perl 6 Testing Done Right
+Testo - Raku Testing Done Right
 
 # SYNOPSIS
 
-```perl6
+```raku
     use Testo;
     plan 10;
 
@@ -39,7 +39,7 @@ Testo - Perl 6 Testing Done Right
 
 # FEATURES
 
-- Tests routines designed for testing Perl 6 code
+- Tests routines designed for testing Raku code
 - Configurable output: TAP, JSON, or even a custom type!
 - Easy to extend with your own custom test routines!
 
@@ -62,13 +62,13 @@ JSON, or any other custom format!
 
 Defined as:
 
-```perl6
+```raku
     sub plan (Int $number-of-tests);
 ```
 
 Specifies the number of tests you plan to run.
 
-```perl6
+```raku
     plan 5;
 ```
 
@@ -76,16 +76,16 @@ Specifies the number of tests you plan to run.
 
 Defined as:
 
-```perl6
+```raku
     sub is (Mu $expected, Mu $got, Str $desc?);
 ```
 
 Testo's workhorse you'll use for most testing. Performs the test using
-[smartmatch](https://docs.perl6.org/routine/~~.html) semantics; i.e. it's
+[smartmatch](https://docs.raku.org/routine/~~.html) semantics; i.e. it's
 equivalent to doing `($expected ~~ $got).Bool`, with the test passing if the
 result is `True`. An optional description of the test can be specified
 
-```perl6
+```raku
     is 'foobar', *.contains('foo');    # test passes
     is (1, 2, (3, 4)), [1, 2, [3, 4]]; # test passes
     is (1, 2, (3, 4)), '1 2 3 4';      # test fails; unlike Test.pm6's `is`
@@ -98,7 +98,7 @@ result is `True`. An optional description of the test can be specified
 ```
 
 Note that Testo does not provide several of [Test.pm6's
-tests](https://docs.perl6.org/language/testing), such as `isnt`, `like`,
+tests](https://docs.raku.org/language/testing), such as `isnt`, `like`,
 `unlike`, `isa-ok` or `does-ok`, as those are replaced by `is` with Regex/type
 objects/`none` Junctions as arguments.
 
@@ -106,14 +106,14 @@ objects/`none` Junctions as arguments.
 
 Defined as:
 
-```perl6
+```raku
     sub is-eqv (Mu $expected, Mu $got, Str $desc?);
 ```
 
 Uses [`eqv`](https://docs.perl6.org/routine/eqv) semantics to perform the test.
 An optional description of the test can be specified.
 
-```perl6
+```raku
     is-eqv (1, 2).Seq, (1, 2); # fails; types do not match
     is-eqv 1.0, 1; # fails; types do not match
     is-eqv 1, 1;   # succeeds; types and values match
@@ -121,14 +121,14 @@ An optional description of the test can be specified.
 
 ## `ok` and `nok`
 
-```perl6
+```raku
     ok $number < 0;
     nok $io-path.e, 'path does not exist';
 ```
 
 ## `is-run`
 
-```perl6
+```raku
     is-run $*EXECUTABLE, :in<hi!>, :args['-e', 'say $*IN.uc'],
         :out(/'HI!'/), 'can say hi';
 
@@ -140,7 +140,7 @@ An optional description of the test can be specified.
 ```
 
 **NOTE:** due to [a Rakudo bug
-RT#130781](https://rt.perl.org/Ticket/Display.html?id=130781#ticket-history)
+RT#130781](https://github.com/Raku/old-issue-tracker/issues/6072)
 exit code is currently always reported as `0`
 
 Runs an executable (via [&run](https://docs.perl6.org/routine/run)), optionally
@@ -156,7 +156,7 @@ example above).
 
 ## `group`
 
-```perl6
+```raku
     plan 1;
 
     # run a bunch of tests as a group; like Test.pm6's `subtest`
@@ -189,12 +189,12 @@ Groups can be nested for any (reasonable) number of levels.
 #### REPOSITORY
 
 Fork this module on GitHub:
-https://github.com/zoffixznet/perl6-Testo
+https://github.com/raku-community-modules/Testo
 
 #### BUGS
 
 To report bugs or request features, please use
-https://github.com/zoffixznet/perl6-Testo/issues
+https://github.com/raku-community-modules/Testo/issues
 
 #### AUTHOR
 
