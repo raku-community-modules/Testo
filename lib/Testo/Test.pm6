@@ -106,7 +106,7 @@ class IsRun does Testo::Test {
     has @.args where .all ~~ Cool;
     has $.out;
     has $.err;
-    has $.status;
+    has $.exitcode;
     has $.tester;
 
     submethod TWEAK {
@@ -118,20 +118,20 @@ class IsRun does Testo::Test {
             $ = .in.close;
             my $out    = .out.slurp-rest: :close;
             my $err    = .err.slurp-rest: :close;
-            my $status = .status;
+            my $exitcode = .exitcode;
 
-            my $wanted-status = $!status // 0;
+            my $wanted-exitcode = $!exitcode // 0;
             my $wanted-out    = $!out    // '';
             my $wanted-err    = $!err    // '';
 
             # Collapse allomorphs; needed on pre-8a0b7460e5 rakudo
-            $_ .= Str when Str for $wanted-out, $wanted-err, $wanted-status;
+            $_ .= Str when Str for $wanted-out, $wanted-err, $wanted-exitcode;
 
             my $*Tester = $!tester.new: group-level => 1+$!tester.group-level;
             $!result = $!tester.group: $*Tester, $!desc => 3 => {
                 $*Tester.is: $out,    $wanted-out,    'STDOUT';
                 $*Tester.is: $err,    $wanted-err,    'STDERR';
-                $*Tester.is: $status, $wanted-status, 'Status';
+                $*Tester.is: $exitcode, $wanted-exitcode, 'Status';
             }
         }
     }
