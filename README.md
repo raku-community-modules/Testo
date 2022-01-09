@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/zoffixznet/perl6-Testo.svg)](https://travis-ci.org/zoffixznet/perl6-Testo)
-
 # NAME
 
 Testo - Raku Testing Done Right
