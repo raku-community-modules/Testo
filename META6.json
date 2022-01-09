@@ -2,10 +2,12 @@
   "name": "Testo",
   "description": "Raku Testing Done Right",
   "version": "1.003007",
-  "perl": "6.c",
+  "perl": "6.d",
   "authors": [
-    "Zoffix Znet"
+    "Zoffix Znet",
+    "Raku community"
   ],
+  "auth": "zef:raku-community-modules",
   "depends": [],
   "test-depends": [],
   "provides": {
