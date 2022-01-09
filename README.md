@@ -1,4 +1,4 @@
-# NAME
+# NAME [![Test in a Raku container](https://github.com/raku-community-modules/Testo/actions/workflows/test.yaml/badge.svg)](https://github.com/raku-community-modules/Testo/actions/workflows/test.yaml)
 
 Testo - Raku Testing Done Right
 
