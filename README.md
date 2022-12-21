@@ -5,34 +5,34 @@ Testo - Raku Testing Done Right
 # SYNOPSIS
 
 ```raku
-    use Testo;
-    plan 10;
+use Testo;
+plan 10;
 
-    # `is` uses smart match semantics:
-    is 'foobar', *.contains('foo');    # test passes
-    is (1, 2, (3, 4)), [1, 2, [3, 4]]; # test passes
-    is (1, 2, (3, 4)), '1 2 3 4';      # test fails; unlike Test.pm6's `is`
-    is 'foobar', /foo/;   # no more Test.pm6's `like`;    just use a regex
-    is 'foobar', Str;     # no more Test.pm6's `isa-ok`;  just use a type object
-    is 'foobar', Stringy; # no more Test.pm6's `does-ok`; just use a type object
+# `is` uses smart match semantics:
+is 'foobar', *.contains('foo');    # test passes
+is (1, 2, (3, 4)), [1, 2, [3, 4]]; # test passes
+is (1, 2, (3, 4)), '1 2 3 4';      # test fails; unlike Test.pm6's `is`
+is 'foobar', /foo/;   # no more Test.pm6's `like`;    just use a regex
+is 'foobar', Str;     # no more Test.pm6's `isa-ok`;  just use a type object
+is 'foobar', Stringy; # no more Test.pm6's `does-ok`; just use a type object
 
-    ok $number < 0;
-    nok $io-path.e, 'path does not exist';
+ok $number < 0;
+nok $io-path.e, 'path does not exist';
 
-    # uses `eqv` semantics and works right with Seqs
-    is-eqv (1, 2).Seq, (1, 2); # test fails; unlike Test.pm6's `is-deeply`
+# uses `eqv` semantics and works right with Seqs
+is-eqv (1, 2).Seq, (1, 2); # test fails; unlike Test.pm6's `is-deeply`
 
-    # execute a program with some args and STDIN input and smartmatch its
-    # STDERR, STDOUT, and exit status:
-    is-run $*EXECUTABLE, :in<hi!>, :args['-e', 'say $*IN.uc'],
-        :out(/'HI!'/), 'can say hi';
+# execute a program with some args and STDIN input and smartmatch its
+# STDERR, STDOUT, and exit status:
+is-run $*EXECUTABLE, :in<hi!>, :args['-e', 'say $*IN.uc'],
+    :out(/'HI!'/), 'can say hi';
 
-    # run a bunch of tests as a group; like Test.pm6's `subtest`
-    group 'a bunch of test' => 3 => {
-        is 1, 1;
-        is 4, 4;
-        is 'foobar', /foo/;
-    }
+# run a bunch of tests as a group; like Test.pm6's `subtest`
+group 'a bunch of test' => 3 => {
+    is 1, 1;
+    is 4, 4;
+    is 'foobar', /foo/;
+}
 ```
 
 # FEATURES
@@ -61,13 +61,13 @@ JSON, or any other custom format!
 Defined as:
 
 ```raku
-    sub plan (Int $number-of-tests);
+sub plan (Int $number-of-tests);
 ```
 
 Specifies the number of tests you plan to run.
 
 ```raku
-    plan 5;
+plan 5;
 ```
 
 ## `is`
@@ -75,7 +75,7 @@ Specifies the number of tests you plan to run.
 Defined as:
 
 ```raku
-    sub is (Mu $expected, Mu $got, Str $desc?);
+sub is (Mu $expected, Mu $got, Str $desc?);
 ```
 
 Testo's workhorse you'll use for most testing. Performs the test using
@@ -84,15 +84,15 @@ equivalent to doing `($expected ~~ $got).Bool`, with the test passing if the
 result is `True`. An optional description of the test can be specified
 
 ```raku
-    is 'foobar', *.contains('foo');    # test passes
-    is (1, 2, (3, 4)), [1, 2, [3, 4]]; # test passes
-    is (1, 2, (3, 4)), '1 2 3 4';      # test fails; unlike Test.pm6's `is`
-    is 'foobar', /foo/;      # no more Test.pm6's `like`;    just use a regex
-    is 'foobar', none /foo/; # no more Test.pm6's `unlike`;  just use a none  Junction
-    is 'foobar', Str;        # no more Test.pm6's `isa-ok`;  just use a type object
-    is 'foobar', Stringy;    # no more Test.pm6's `does-ok`; just use a type object
+is 'foobar', *.contains('foo');    # test passes
+is (1, 2, (3, 4)), [1, 2, [3, 4]]; # test passes
+is (1, 2, (3, 4)), '1 2 3 4';      # test fails; unlike Test.pm6's `is`
+is 'foobar', /foo/;      # no more Test.pm6's `like`;    just use a regex
+is 'foobar', none /foo/; # no more Test.pm6's `unlike`;  just use a none  Junction
+is 'foobar', Str;        # no more Test.pm6's `isa-ok`;  just use a type object
+is 'foobar', Stringy;    # no more Test.pm6's `does-ok`; just use a type object
 
-    is 1, 2, 'some description'; # you can provide optional description too
+is 1, 2, 'some description'; # you can provide optional description too
 ```
 
 Note that Testo does not provide several of [Test.pm6's
@@ -105,36 +105,36 @@ objects/`none` Junctions as arguments.
 Defined as:
 
 ```raku
-    sub is-eqv (Mu $expected, Mu $got, Str $desc?);
+sub is-eqv (Mu $expected, Mu $got, Str $desc?);
 ```
 
 Uses [`eqv`](https://docs.perl6.org/routine/eqv) semantics to perform the test.
 An optional description of the test can be specified.
 
 ```raku
-    is-eqv (1, 2).Seq, (1, 2); # fails; types do not match
-    is-eqv 1.0, 1; # fails; types do not match
-    is-eqv 1, 1;   # succeeds; types and values match
+is-eqv (1, 2).Seq, (1, 2); # fails; types do not match
+is-eqv 1.0, 1; # fails; types do not match
+is-eqv 1, 1;   # succeeds; types and values match
 ```
 
 ## `ok` and `nok`
 
 ```raku
-    ok $number < 0;
-    nok $io-path.e, 'path does not exist';
+ok $number < 0;
+nok $io-path.e, 'path does not exist';
 ```
 
 ## `is-run`
 
 ```raku
-    is-run $*EXECUTABLE, :in<hi!>, :args['-e', 'say $*IN.uc'],
-        :out(/'HI!'/), 'can say hi';
+is-run $*EXECUTABLE, :in<hi!>, :args['-e', 'say $*IN.uc'],
+    :out(/'HI!'/), 'can say hi';
 
-    is-run $*EXECUTABLE, :args['-e', '$*ERR.print: 42'],
-        :err<42>, 'can err 42';
+is-run $*EXECUTABLE, :args['-e', '$*ERR.print: 42'],
+    :err<42>, 'can err 42';
 
-    is-run $*EXECUTABLE, :args['-e', 'die 42'],
-        :err(*), :42status, 'can exit with exit code 42';
+is-run $*EXECUTABLE, :args['-e', 'die 42'],
+    :err(*), :42status, 'can exit with exit code 42';
 ```
 
 **NOTE:** due to [a Rakudo bug
@@ -155,20 +155,20 @@ example above).
 ## `group`
 
 ```raku
-    plan 1;
+plan 1;
 
-    # run a bunch of tests as a group; like Test.pm6's `subtest`
-    group 'a bunch of tests' => 4 => {
+# run a bunch of tests as a group; like Test.pm6's `subtest`
+group 'a bunch of tests' => 4 => {
+    is 1, 1;
+    is 4, 4;
+    is 'foobar', /foo/;
+
+    group 'nested bunch of tests; with manual `plan`' => {
+        plan 2;
         is 1, 1;
         is 4, 4;
-        is 'foobar', /foo/;
-
-        group 'nested bunch of tests; with manual `plan`' => {
-            plan 2;
-            is 1, 1;
-            is 4, 4;
-        }
     }
+}
 ```
 
 Similar to `Test.pm6`'s `subtest`. Groups a number of tests into a... group
