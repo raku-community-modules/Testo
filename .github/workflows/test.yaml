@@ -1,21 +1,31 @@
-name: "Test in a Raku container"
-on: [ push, pull_request ]
+name: test
+
+on:
+  push:
+    branches:
+      - '*'
+    tags-ignore:
+      - '*'
+  pull_request:
+  workflow_dispatch:
+
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    permissions:
-      packages: read
-    container:
-      image: ghcr.io/jj/raku-zef-gha
+  raku:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+        raku-version:
+          - "latest"
+          - "2023.08"
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Cache installed dists
-        uses: actions/cache@v2
-        id: meta6
+      - uses: actions/checkout@v4
+      - uses: Raku/setup-raku@v1
         with:
-          path: ~/.raku/
-          key: ${{ runner.os }}-${{ hashFiles('META6.json') }}
-      - name: Test and install for more tests
-        run: |
-          zef install .
+          raku-version: ${{ matrix.raku-version }}
+      - name: Run tests and Install
+        run: zef install . --debug
