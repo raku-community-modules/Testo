@@ -1,7 +1,7 @@
 unit package Testo::Test;
 use Testo::Test::Result;
 
-sub desc-perl (Mu $v) {
+sub desc-raku (Mu $v) {
     $v.cache if $v ~~ Seq:D;
     my $desc = try $v.perl;
     $! and $desc = $v.^name ~ (' (lazy)' if try $v.is-lazy);
@@ -41,7 +41,7 @@ class Group does Testo::Test {
 class Is does Testo::Test {
     has Mu  $.got    is required;
     has Mu  $.exp    is required;
-    submethod TWEAK { $!desc //= "&desc-perl($!got) is &desc-perl($!exp)" }
+    submethod TWEAK { $!desc //= "&desc-raku($!got) is &desc-raku($!exp)" }
     method !test { $!got ~~ $!exp }
     method !fail {
           "                     Got: {(try $.got.perl) or $.got.^name}\n"
@@ -53,7 +53,7 @@ class IsEqv does Testo::Test {
     has Mu  $.got    is required;
     has Mu  $.exp    is required;
     submethod TWEAK {
-        $!desc //= "&desc-perl($!got) is equivalent to &desc-perl($!exp)"
+        $!desc //= "&desc-raku($!got) is equivalent to &desc-raku($!exp)"
     }
     method !test {
         (try so $!got eqv $!exp) // Failure
@@ -67,7 +67,7 @@ class IsEqv does Testo::Test {
 class IsTrue does Testo::Test {
     has Mu $.got is required;
     submethod TWEAK {
-        $!desc //= "&desc-perl($!got) is True";
+        $!desc //= "&desc-raku($!got) is True";
     }
     method !test {
         (try so $!got) // Failure;
@@ -81,7 +81,7 @@ class IsTrue does Testo::Test {
 class IsFalse does Testo::Test {
     has Mu $.got is required;
     submethod TWEAK {
-        $!desc //= "&desc-perl($!got) is False";
+        $!desc //= "&desc-raku($!got) is False";
     }
     method !test {
         (try not so $!got) // Failure;
