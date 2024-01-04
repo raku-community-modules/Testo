@@ -1,7 +1,7 @@
 {
   "name": "Testo",
   "description": "Raku Testing Done Right",
-  "version": "1.003007",
+  "version": "1.003008",
   "perl": "6.d",
   "authors": [
     "Zoffix Znet",
@@ -26,7 +26,7 @@
     "Testo::Tester": "lib/Testo/Tester.rakumod"
   },
   "support": {
-    "source": "git://github.com/raku-community-modules/Testo.git"
+    "source": "https://github.com/raku-community-modules/Testo.git"
   },
   "tags": [
     "Testing"
