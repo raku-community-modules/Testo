@@ -1,7 +1,7 @@
 {
   "name": "Testo",
   "description": "Raku Testing Done Right",
-  "version": "1.003008",
+  "version": "1.003009",
   "raku": "6.d",
   "authors": [
     "Zoffix Znet",
