@@ -11,23 +11,23 @@ plan 10;
 # `is` uses smart match semantics:
 is 'foobar', *.contains('foo');    # test passes
 is (1, 2, (3, 4)), [1, 2, [3, 4]]; # test passes
-is (1, 2, (3, 4)), '1 2 3 4';      # test fails; unlike Test.pm6's `is`
-is 'foobar', /foo/;   # no more Test.pm6's `like`;    just use a regex
-is 'foobar', Str;     # no more Test.pm6's `isa-ok`;  just use a type object
-is 'foobar', Stringy; # no more Test.pm6's `does-ok`; just use a type object
+is (1, 2, (3, 4)), '1 2 3 4';      # test fails; unlike Test's `is`
+is 'foobar', /foo/;   # no more Test's `like`;    just use a regex
+is 'foobar', Str;     # no more Test's `isa-ok`;  just use a type object
+is 'foobar', Stringy; # no more Test's `does-ok`; just use a type object
 
 ok $number < 0;
 nok $io-path.e, 'path does not exist';
 
 # uses `eqv` semantics and works right with Seqs
-is-eqv (1, 2).Seq, (1, 2); # test fails; unlike Test.pm6's `is-deeply`
+is-eqv (1, 2).Seq, (1, 2); # test fails; unlike Test's `is-deeply`
 
 # execute a program with some args and STDIN input and smartmatch its
 # STDERR, STDOUT, and exit status:
 is-run $*EXECUTABLE, :in<hi!>, :args['-e', 'say $*IN.uc'],
     :out(/'HI!'/), 'can say hi';
 
-# run a bunch of tests as a group; like Test.pm6's `subtest`
+# run a bunch of tests as a group; like Test's `subtest`
 group 'a bunch of test' => 3 => {
     is 1, 1;
     is 4, 4;
@@ -49,8 +49,8 @@ are yet to be made, but will be made soon!
 
 # DESCRIPTION
 
-Testo is the New and Improved version of `Test.pm6` that you can use
-*instead* of `Test.pm6` to test all of your code and generate output in
+Testo is the New and Improved version of `Test` that you can use
+*instead* of `Test` to test all of your code and generate output in
 [TAP](https://testanything.org/tap-specification.html),
 JSON, or any other custom format!
 
@@ -86,16 +86,16 @@ result is `True`. An optional description of the test can be specified
 ```raku
 is 'foobar', *.contains('foo');    # test passes
 is (1, 2, (3, 4)), [1, 2, [3, 4]]; # test passes
-is (1, 2, (3, 4)), '1 2 3 4';      # test fails; unlike Test.pm6's `is`
-is 'foobar', /foo/;      # no more Test.pm6's `like`;    just use a regex
-is 'foobar', none /foo/; # no more Test.pm6's `unlike`;  just use a none  Junction
-is 'foobar', Str;        # no more Test.pm6's `isa-ok`;  just use a type object
-is 'foobar', Stringy;    # no more Test.pm6's `does-ok`; just use a type object
+is (1, 2, (3, 4)), '1 2 3 4';      # test fails; unlike Test's `is`
+is 'foobar', /foo/;      # no more Test's `like`;    just use a regex
+is 'foobar', none /foo/; # no more Test's `unlike`;  just use a none  Junction
+is 'foobar', Str;        # no more Test's `isa-ok`;  just use a type object
+is 'foobar', Stringy;    # no more Test's `does-ok`; just use a type object
 
 is 1, 2, 'some description'; # you can provide optional description too
 ```
 
-Note that Testo does not provide several of [Test.pm6's
+Note that Testo does not provide several of [Test's
 tests](https://docs.raku.org/language/testing), such as `isnt`, `like`,
 `unlike`, `isa-ok` or `does-ok`, as those are replaced by `is` with Regex/type
 objects/`none` Junctions as arguments.
@@ -157,7 +157,7 @@ example above).
 ```raku
 plan 1;
 
-# run a bunch of tests as a group; like Test.pm6's `subtest`
+# run a bunch of tests as a group; like Test's `subtest`
 group 'a bunch of tests' => 4 => {
     is 1, 1;
     is 4, 4;
@@ -171,7 +171,7 @@ group 'a bunch of tests' => 4 => {
 }
 ```
 
-Similar to `Test.pm6`'s `subtest`. Groups a number of tests into a... group
+Similar to `Test`'s `subtest`. Groups a number of tests into a... group
 with its own plan. The entire group counts as 1 test towards the planned/ran
 number of tests.
 
@@ -205,7 +205,7 @@ The Artistic License 2.0. See the `LICENSE` file included in this
 distribution for complete details.
 
 Some portions of this software may be based on or re-use code
-of `Test.pm6` module shipped with
+of `Test` module shipped with
 [Rakudo 2107.04.03](http://rakudo.org/downloads/rakudo/), © 2017 by The Raku
 Foundation, under The Artistic License 2.0.
 
