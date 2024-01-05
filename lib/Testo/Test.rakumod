@@ -3,7 +3,7 @@ use Testo::Test::Result;
 
 sub desc-raku (Mu $v) {
     $v.cache if $v ~~ Seq:D;
-    my $desc = try $v.perl;
+    my $desc = try $v.raku;
     $! and $desc = $v.^name ~ (' (lazy)' if try $v.is-lazy);
     $desc = $desc.substr(0, 30) ~ '…' if $desc.chars > 30;
     $desc ~~ tr/\n/␤/;
@@ -44,8 +44,8 @@ class Is does Testo::Test {
     submethod TWEAK { $!desc //= "&desc-raku($!got) is &desc-raku($!exp)" }
     method !test { $!got ~~ $!exp }
     method !fail {
-          "                     Got: {(try $.got.perl) or $.got.^name}\n"
-        ~ "Does not smartmatch with: {(try $.exp.perl) or $.exp.^name}"
+          "                     Got: {(try $.got.raku) or $.got.^name}\n"
+        ~ "Does not smartmatch with: {(try $.exp.raku) or $.exp.^name}"
     }
 }
 
@@ -59,8 +59,8 @@ class IsEqv does Testo::Test {
         (try so $!got eqv $!exp) // Failure
     }
     method !fail {
-          "            Got: $.got.perl()\n"
-        ~ "Does not eqv to: $.exp.perl()"
+          "            Got: $.got.raku()\n"
+        ~ "Does not eqv to: $.exp.raku()"
     }
 }
 
@@ -73,7 +73,7 @@ class IsTrue does Testo::Test {
         (try so $!got) // Failure;
     }
     method !fail {
-          "            Got: $.got.perl()\n"
+          "            Got: $.got.raku()\n"
         ~ "Does not evaluate to True"
     }
 }
@@ -87,7 +87,7 @@ class IsFalse does Testo::Test {
         (try not so $!got) // Failure;
     }
     method !fail {
-          "            Got: $.got.perl()\n"
+          "            Got: $.got.raku()\n"
         ~ "Does not evaluate to False"
     }
 }

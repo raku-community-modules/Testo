@@ -108,7 +108,7 @@ Defined as:
 sub is-eqv (Mu $expected, Mu $got, Str $desc?);
 ```
 
-Uses [`eqv`](https://docs.perl6.org/routine/eqv) semantics to perform the test.
+Uses [`eqv`](https://docs.raku.org/routine/eqv) semantics to perform the test.
 An optional description of the test can be specified.
 
 ```raku
@@ -141,14 +141,14 @@ is-run $*EXECUTABLE, :args['-e', 'die 42'],
 RT#130781](https://github.com/Raku/old-issue-tracker/issues/6072)
 exit code is currently always reported as `0`
 
-Runs an executable (via [&run](https://docs.perl6.org/routine/run)), optionally
+Runs an executable (via [&run](https://docs.raku.org/routine/run)), optionally
 supplying extra args given as `:args[...]` or feeding STDIN with a `Str` or
 `Blob` data given via C<:in>.
 
 Runs three `is` tests on STDOUT, STDERR, and exit code expected values for
 which are provided via `:out`, `:err` and `:status` arguments respectively.
 If omitted, `:out` and `:err` default to empty string (`''`) and `:status`
-defaults to `0`. Use the [Whatever star](https://docs.perl6.org/type/Whatever)
+defaults to `0`. Use the [Whatever star](https://docs.raku.org/type/Whatever)
 (`*`) as the value for any of the three arguments (see `:err` in last
 example above).
 
@@ -196,7 +196,7 @@ https://github.com/raku-community-modules/Testo/issues
 
 #### AUTHOR
 
-Zoffix Znet (http://perl6.party/)
+Zoffix Znet
 
 #### LICENSE
 
@@ -206,7 +206,7 @@ distribution for complete details.
 
 Some portions of this software may be based on or re-use code
 of `Test.pm6` module shipped with
-[Rakudo 2107.04.03](http://rakudo.org/downloads/rakudo/), © 2017 by The Perl
+[Rakudo 2107.04.03](http://rakudo.org/downloads/rakudo/), © 2017 by The Raku
 Foundation, under The Artistic License 2.0.
 
 The `META6.json` file of this distribution may be distributed and modified
