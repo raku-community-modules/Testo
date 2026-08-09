@@ -4,15 +4,20 @@
     "Zoffix Znet",
     "Raku community"
   ],
+  "build-depends": [
+  ],
   "depends": [
   ],
   "description": "Raku Testing Done Right",
-  "license": "NOASSERTION",
+  "license": "Artistic-2.0",
   "name": "Testo",
   "provides": {
     "Testo": "lib/Testo.rakumod"
   },
   "raku": "6.d",
+  "resources": [
+  ],
+  "source-url": "https://github.com/raku-community-modules/Testo.git",
   "support": {
     "bugtracker": "https://github.com/raku-community-modules/Testo/issues",
     "email": "community@raku.org",
@@ -20,6 +25,8 @@
   },
   "tags": [
     "Testing"
+  ],
+  "test-depends": [
   ],
   "version": "1.9"
 }

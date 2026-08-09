@@ -2,5 +2,6 @@ use Test::Coverage;
 
 todo "Needs more tests";
 must-be-complete;
+exit;  # needed for some reason, interaction with Testo?
 
 # vim: expandtab shiftwidth=4
