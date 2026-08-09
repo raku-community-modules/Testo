@@ -1,8 +1,12 @@
-# NAME [![Test in a Raku container](https://github.com/raku-community-modules/Testo/actions/workflows/test.yaml/badge.svg)](https://github.com/raku-community-modules/Testo/actions/workflows/test.yaml)
+[![Actions Status](https://github.com/raku-community-modules/Testo/actions/workflows/linux.yml/badge.svg)](https://github.com/raku-community-modules/Testo/actions) [![Actions Status](https://github.com/raku-community-modules/Testo/actions/workflows/macos.yml/badge.svg)](https://github.com/raku-community-modules/Testo/actions) [![Actions Status](https://github.com/raku-community-modules/Testo/actions/workflows/windows.yml/badge.svg)](https://github.com/raku-community-modules/Testo/actions)
+
+NAME
+====
 
 Testo - Raku Testing Done Right
 
-# SYNOPSIS
+SYNOPSIS
+========
 
 ```raku
 use Testo;
@@ -35,34 +39,16 @@ group 'a bunch of test' => 3 => {
 }
 ```
 
-# FEATURES
+DESCRIPTION
+===========
 
-- Tests routines designed for testing Raku code
-- Configurable output: TAP, JSON, or even a custom type!
-- Easy to extend with your own custom test routines!
+Testo is the New and Improved version of `Test` that you can use *instead* of `Test` to test all of your code and generate output in [TAP](https://testanything.org/tap-specification.html), JSON, or any other custom format!
 
-# BETA-WARE
+EXPORTED ROUTINES
+=================
 
-Note this module is still in fleshing-out stage. JSON output type, more
-test functions, and docs for the classes under the hood and customization
-are yet to be made, but will be made soon!
-
-# DESCRIPTION
-
-Testo is the New and Improved version of `Test` that you can use
-*instead* of `Test` to test all of your code and generate output in
-[TAP](https://testanything.org/tap-specification.html),
-JSON, or any other custom format!
-
-# EXPORTED ROUTINES
-
-## `plan`
-
-Defined as:
-
-```raku
-sub plan (Int $number-of-tests);
-```
+plan
+----
 
 Specifies the number of tests you plan to run.
 
@@ -70,18 +56,10 @@ Specifies the number of tests you plan to run.
 plan 5;
 ```
 
-## `is`
+is
+--
 
-Defined as:
-
-```raku
-sub is (Mu $expected, Mu $got, Str $desc?);
-```
-
-Testo's workhorse you'll use for most testing. Performs the test using
-[smartmatch](https://docs.raku.org/routine/~~.html) semantics; i.e. it's
-equivalent to doing `($expected ~~ $got).Bool`, with the test passing if the
-result is `True`. An optional description of the test can be specified
+Testo's workhorse you'll use for most testing. Performs the test using [smartmatch](https://docs.raku.org/routine/~~) semantics; i.e. it's equivalent to doing `($expected ~~ $got).Bool`, with the test passing if the result is `True`. An optional description of the test can be specified
 
 ```raku
 is 'foobar', *.contains('foo');    # test passes
@@ -95,21 +73,12 @@ is 'foobar', Stringy;    # no more Test's `does-ok`; just use a type object
 is 1, 2, 'some description'; # you can provide optional description too
 ```
 
-Note that Testo does not provide several of [Test's
-tests](https://docs.raku.org/language/testing), such as `isnt`, `like`,
-`unlike`, `isa-ok` or `does-ok`, as those are replaced by `is` with Regex/type
-objects/`none` Junctions as arguments.
+Note that Testo does not provide several of [Test's tests](https://docs.raku.org/language/testing), such as `isnt`, `like`, `unlike`, `isa-ok` or `does-ok`, as those are replaced by `is` with Regex/type objects/none Junctions as arguments.
 
-## `is-eqv`
+is-eqv
+------
 
-Defined as:
-
-```raku
-sub is-eqv (Mu $expected, Mu $got, Str $desc?);
-```
-
-Uses [`eqv`](https://docs.raku.org/routine/eqv) semantics to perform the test.
-An optional description of the test can be specified.
+Uses [eqv](https://docs.raku.org/routine/eqv) semantics to perform the test. An optional description of the test can be specified.
 
 ```raku
 is-eqv (1, 2).Seq, (1, 2); # fails; types do not match
@@ -117,14 +86,16 @@ is-eqv 1.0, 1; # fails; types do not match
 is-eqv 1, 1;   # succeeds; types and values match
 ```
 
-## `ok` and `nok`
+ok and nok
+----------
 
 ```raku
 ok $number < 0;
 nok $io-path.e, 'path does not exist';
 ```
 
-## `is-run`
+is-run
+------
 
 ```raku
 is-run $*EXECUTABLE, :in<hi!>, :args['-e', 'say $*IN.uc'],
@@ -137,22 +108,12 @@ is-run $*EXECUTABLE, :args['-e', 'die 42'],
     :err(*), :42status, 'can exit with exit code 42';
 ```
 
-**NOTE:** due to [a Rakudo bug
-RT#130781](https://github.com/Raku/old-issue-tracker/issues/6072)
-exit code is currently always reported as `0`
+Runs an executable (via [&run](https://docs.raku.org/routine/run)), optionally supplying extra arguments given as `:args[...]` or feeding STDIN with a `Str` or `Blob` data given via `:in`.
 
-Runs an executable (via [&run](https://docs.raku.org/routine/run)), optionally
-supplying extra args given as `:args[...]` or feeding STDIN with a `Str` or
-`Blob` data given via C<:in>.
+Runs three `is` tests on STDOUT, STDERR, and exit code expected values for which are provided via `:out`, `:err` and `:status` arguments respectively. If omitted, `:out` and `:err` default to empty string (`''`) and `:status` defaults to `0`. Use the [Whatever star](https://docs.raku.org/type/Whatever) (`*`) as the value for any of the three arguments (see `:err` in last example above).
 
-Runs three `is` tests on STDOUT, STDERR, and exit code expected values for
-which are provided via `:out`, `:err` and `:status` arguments respectively.
-If omitted, `:out` and `:err` default to empty string (`''`) and `:status`
-defaults to `0`. Use the [Whatever star](https://docs.raku.org/type/Whatever)
-(`*`) as the value for any of the three arguments (see `:err` in last
-example above).
-
-## `group`
+group
+-----
 
 ```raku
 plan 1;
@@ -171,43 +132,25 @@ group 'a bunch of tests' => 4 => {
 }
 ```
 
-Similar to `Test`'s `subtest`. Groups a number of tests into a... group
-with its own plan. The entire group counts as 1 test towards the planned/ran
-number of tests.
+Similar to `Test`'s `subtest`. Groups a number of tests into a... group with its own plan. The entire group counts as 1 test towards the planned/ran number of tests.
 
-Takes a `Pair` as the argument that is either `Str:D $desc => &group-code`
-or `Str:D $desc => UInt:D $plan where .so => &group-code` (see code example
-above), the latter form lets you specify the plan for the group, while the
-former would require you to manually use `&plan` inside of the `&group-code`.
+Takes a `Pair` as the argument that is either `Str:D $desc =` &group-code> or `Str:D $desc =` UInt:D $plan where .so => &group-code> (see code example above). The latter form lets you specify the plan for the group, while the former would require you to manually use `plan` inside of the `&group-code`.
 
 Groups can be nested for any (reasonable) number of levels.
 
----
-
-#### REPOSITORY
-
-Fork this module on GitHub:
-https://github.com/raku-community-modules/Testo
-
-#### BUGS
-
-To report bugs or request features, please use
-https://github.com/raku-community-modules/Testo/issues
-
-#### AUTHOR
+AUTHOR
+======
 
 Zoffix Znet
 
-#### LICENSE
+Source can be located at: https://github.com/raku-community-modules/Testo . Comments and Pull Requests are welcome.
 
-You can use and distribute this module under the terms of the
-The Artistic License 2.0. See the `LICENSE` file included in this
-distribution for complete details.
+COPYRIGHT AND LICENSE
+=====================
 
-Some portions of this software may be based on or re-use code
-of `Test` module shipped with
-[Rakudo 2107.04.03](http://rakudo.org/downloads/rakudo/), © 2017 by The Raku
-Foundation, under The Artistic License 2.0.
+Copyright 2017 Zoffix Znet
 
-The `META6.json` file of this distribution may be distributed and modified
-without restrictions or attribution.
+Copyright 2019 - 2022, 2024, 2026 Raku Community
+
+This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
+

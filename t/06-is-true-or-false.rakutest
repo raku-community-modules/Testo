@@ -1,4 +1,3 @@
-use lib <lib>;
 use Testo;
 
 plan 6;
@@ -11,3 +10,5 @@ nok 0;
 
 ok 1 ~~ 1;
 nok 1 ~~ 2;
+
+# vim: expandtab shiftwidth=4

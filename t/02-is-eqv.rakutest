@@ -1,4 +1,3 @@
-use lib <lib>;
 use Testo;
 
 plan 7;
@@ -10,3 +9,5 @@ is-eqv '1', '1';
 is-eqv /foo/, /foo/;
 is-eqv (1, 2, 3), (1, 2, 3);
 is-eqv 1..*, 1..Inf;
+
+# vim: expandtab shiftwidth=4

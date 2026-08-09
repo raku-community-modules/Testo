@@ -1,34 +1,25 @@
 {
-  "name": "Testo",
-  "description": "Raku Testing Done Right",
-  "version": "1.003009",
-  "raku": "6.d",
+  "auth": "zef:raku-community-modules",
   "authors": [
     "Zoffix Znet",
     "Raku community"
   ],
-  "auth": "zef:raku-community-modules",
-  "depends": [],
-  "test-depends": [],
+  "depends": [
+  ],
+  "description": "Raku Testing Done Right",
+  "license": "NOASSERTION",
+  "name": "Testo",
   "provides": {
-    "Testo": "lib/Testo.rakumod",
-    "Testo::Out": "lib/Testo/Out.rakumod",
-    "Testo::Out::TAP": "lib/Testo/Out/TAP.rakumod",
-    "Testo::Test": "lib/Testo/Test.rakumod",
-    "Testo::Test::Group": "lib/Testo/Test.rakumod",
-    "Testo::Test::Is": "lib/Testo/Test.rakumod",
-    "Testo::Test::IsEqv": "lib/Testo/Test.rakumod",
-    "Testo::Test::IsFalse": "lib/Testo/Test.rakumod",
-    "Testo::Test::IsRun": "lib/Testo/Test.rakumod",
-    "Testo::Test::IsTrue": "lib/Testo/Test.rakumod",
-    "Testo::Test::Result": "lib/Testo/Test/Result.rakumod",
-    "Testo::Test::Skip": "lib/Testo/Test.rakumod",
-    "Testo::Tester": "lib/Testo/Tester.rakumod"
+    "Testo": "lib/Testo.rakumod"
   },
+  "raku": "6.d",
   "support": {
+    "bugtracker": "https://github.com/raku-community-modules/Testo/issues",
+    "email": "community@raku.org",
     "source": "https://github.com/raku-community-modules/Testo.git"
   },
   "tags": [
     "Testing"
-  ]
+  ],
+  "version": "1.9"
 }

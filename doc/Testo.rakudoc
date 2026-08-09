@@ -1,0 +1,172 @@
+=begin pod
+
+=head1 NAME
+
+Testo - Raku Testing Done Right
+
+=head1 SYNOPSIS
+
+=begin code :lang<raku>
+use Testo;
+plan 10;
+
+# `is` uses smart match semantics:
+is 'foobar', *.contains('foo');    # test passes
+is (1, 2, (3, 4)), [1, 2, [3, 4]]; # test passes
+is (1, 2, (3, 4)), '1 2 3 4';      # test fails; unlike Test's `is`
+is 'foobar', /foo/;   # no more Test's `like`;    just use a regex
+is 'foobar', Str;     # no more Test's `isa-ok`;  just use a type object
+is 'foobar', Stringy; # no more Test's `does-ok`; just use a type object
+
+ok $number < 0;
+nok $io-path.e, 'path does not exist';
+
+# uses `eqv` semantics and works right with Seqs
+is-eqv (1, 2).Seq, (1, 2); # test fails; unlike Test's `is-deeply`
+
+# execute a program with some args and STDIN input and smartmatch its
+# STDERR, STDOUT, and exit status:
+is-run $*EXECUTABLE, :in<hi!>, :args['-e', 'say $*IN.uc'],
+    :out(/'HI!'/), 'can say hi';
+
+# run a bunch of tests as a group; like Test's `subtest`
+group 'a bunch of test' => 3 => {
+    is 1, 1;
+    is 4, 4;
+    is 'foobar', /foo/;
+}
+=end code
+
+=head1 DESCRIPTION
+
+Testo is the New and Improved version of C<Test> that you can use
+*instead* of C<Test> to test all of your code and generate output in
+L<TAP|https://testanything.org/tap-specification.html>, JSON, or
+any other custom format!
+
+=head1 EXPORTED ROUTINES
+
+=head2 plan
+
+Specifies the number of tests you plan to run.
+
+=begin code :lang<raku>
+plan 5;
+=end code
+
+=head2 is
+
+Testo's workhorse you'll use for most testing. Performs the test using
+L<smartmatch|https://docs.raku.org/routine/~~> semantics; i.e. it's
+equivalent to doing C<($expected ~~ $got).Bool>, with the test passing
+if the result is C<True>. An optional description of the test can be
+specified
+
+=begin code :lang<raku>
+is 'foobar', *.contains('foo');    # test passes
+is (1, 2, (3, 4)), [1, 2, [3, 4]]; # test passes
+is (1, 2, (3, 4)), '1 2 3 4';      # test fails; unlike Test's `is`
+is 'foobar', /foo/;      # no more Test's `like`;    just use a regex
+is 'foobar', none /foo/; # no more Test's `unlike`;  just use a none  Junction
+is 'foobar', Str;        # no more Test's `isa-ok`;  just use a type object
+is 'foobar', Stringy;    # no more Test's `does-ok`; just use a type object
+
+is 1, 2, 'some description'; # you can provide optional description too
+=end code
+
+Note that Testo does not provide several of
+L<Test's tests|https://docs.raku.org/language/testing>, such as
+C<isnt>, C<like>, C<unlike>, C<isa-ok> or C<does-ok>, as those are
+replaced by C<is> with Regex/type objects/none Junctions as arguments.
+
+=head2 is-eqv
+
+Uses L<eqv|https://docs.raku.org/routine/eqv> semantics to perform the
+test.  An optional description of the test can be specified.
+
+=begin code :lang<raku>
+is-eqv (1, 2).Seq, (1, 2); # fails; types do not match
+is-eqv 1.0, 1; # fails; types do not match
+is-eqv 1, 1;   # succeeds; types and values match
+=end code
+
+=head2 ok and nok
+
+=begin code :lang<raku>
+ok $number < 0;
+nok $io-path.e, 'path does not exist';
+=end code
+
+=head2 is-run
+
+=begin code :lang<raku>
+is-run $*EXECUTABLE, :in<hi!>, :args['-e', 'say $*IN.uc'],
+    :out(/'HI!'/), 'can say hi';
+
+is-run $*EXECUTABLE, :args['-e', '$*ERR.print: 42'],
+    :err<42>, 'can err 42';
+
+is-run $*EXECUTABLE, :args['-e', 'die 42'],
+    :err(*), :42status, 'can exit with exit code 42';
+=end code
+
+Runs an executable (via L<&run|https://docs.raku.org/routine/run>),
+optionally supplying extra arguments given as C<:args[...]> or
+feeding STDIN with a C<Str> or C<Blob> data given via C<:in>.
+
+Runs three C<is> tests on STDOUT, STDERR, and exit code expected
+values for which are provided via C<:out>, C<:err> and C<:status>
+arguments respectively.  If omitted, C<:out> and C<:err> default
+to empty string (C<''>) and C<:status> defaults to C<0>. Use the
+L<Whatever star|https://docs.raku.org/type/Whatever> (C<*>) as
+the value for any of the three arguments (see C<:err> in last
+example above).
+
+=head2 group
+
+=begin code :lang<raku>
+plan 1;
+
+# run a bunch of tests as a group; like Test's `subtest`
+group 'a bunch of tests' => 4 => {
+    is 1, 1;
+    is 4, 4;
+    is 'foobar', /foo/;
+
+    group 'nested bunch of tests; with manual `plan`' => {
+        plan 2;
+        is 1, 1;
+        is 4, 4;
+    }
+}
+=end code
+
+Similar to C<Test>'s C<subtest>. Groups a number of tests into a...
+group with its own plan. The entire group counts as 1 test towards
+the planned/ran number of tests.
+
+Takes a C<Pair> as the argument that is either
+C<Str:D $desc => &group-code> or
+C<Str:D $desc => UInt:D $plan where .so => &group-code> (see code
+example above).  The latter form lets you specify the plan for the
+group, while the former would require you to manually use C<plan>
+inside of the C<&group-code>.
+
+Groups can be nested for any (reasonable) number of levels.
+
+=head1 AUTHOR
+
+Zoffix Znet
+
+Source can be located at: https://github.com/raku-community-modules/Testo .
+Comments and Pull Requests are welcome.
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2017 Zoffix Znet
+
+Copyright 2019 - 2022, 2024, 2026 Raku Community
+
+This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
+
+=end pod

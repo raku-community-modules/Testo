@@ -1,0 +1,8 @@
+Revision history for Testo
+
+{{$NEXT}}
+    - Moved code into a single file to prevent weird
+      package scoping issues
+    - Modernized docs, META, test-file extensions
+    - Updated copyright year
+    - First version using full App::Mi6 integration
