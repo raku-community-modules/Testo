@@ -2,6 +2,9 @@ Revision history for Testo
 
 {{$NEXT}}
 
+2.0  2026-10-30T08:35:44+13:00
+    - Bump version to 2.0, to surpass previous 1.003007 release
+
 1.9  2026-08-09T13:57:03+02:00
     - Moved code into a single file to prevent weird
       package scoping issues
